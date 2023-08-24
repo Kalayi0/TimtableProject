@@ -1,0 +1,49 @@
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('student', 'lecturer', 'admin') NOT NULL
+);
+
+CREATE TABLE Courses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(10) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    requireLab BOOLEAN NOT NULL
+);
+
+CREATE TABLE Rooms (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    type ENUM('regular', 'lab') NOT NULL,
+    capacity INT NOT NULL
+);
+
+CREATE TABLE Schedule (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    courseId INT NOT NULL,
+    roomId INT NOT NULL,
+    day ENUM('monday', 'tuesday', 'wednesday', 'thursday', 'friday') NOT NULL,
+    time TIME NOT NULL,
+    FOREIGN KEY (courseId) REFERENCES Courses(id),
+    FOREIGN KEY (roomId) REFERENCES Rooms(id)
+);
+
+CREATE TABLE ConfirmedCourses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    studentId INT NOT NULL,
+    courseId INT NOT NULL,
+    semester VARCHAR(20) NOT NULL,
+    FOREIGN KEY (studentId) REFERENCES Users(id),
+    FOREIGN KEY (courseId) REFERENCES Courses(id)
+);
+
+CREATE TABLE SpecialCourses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code VARCHAR(10) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    department VARCHAR(255) NOT NULL,
+    requireLab BOOLEAN NOT NULL
+);
