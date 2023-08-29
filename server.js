@@ -1,17 +1,17 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const { initializeApp } = require('firebase/app');
+const { getFirestore } = require('firebase/firestore');
+const { firebaseConfig } = require('./config/firebaseConfig');
 
 const app = express();
-const PORT = 4000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(cors());
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
-/// Routes
-app.post('/generate-timetable', generateTimetableHandler);
+// Define your API routes and other application logic here
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
